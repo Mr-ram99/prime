@@ -5,24 +5,33 @@ import ProductCard from "../components/ProductCard";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchProducts() {
-      await fetch("https://dummyjson.com/products/category/smartphones")
+      await fetch(
+        "https://dummyjson.com/products/category/sports-accessories?select=id,title,price,images"
+      )
         .then((res) => res.json())
         .then((res) => {
           setProducts(res.products);
-          console.log(res.products);
+          setLoading(false);
         });
     }
     fetchProducts();
   }, []);
 
   return (
-    <div className="grid center grid-cols-1 md:grid-cols-4 gap-3">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+    <div>
+      {loading ? (
+        <div className="text-center text-xl">Loading...</div>
+      ) : (
+        <div className="p-4 grid center grid-cols-1 md:grid-cols-4 gap-3">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
