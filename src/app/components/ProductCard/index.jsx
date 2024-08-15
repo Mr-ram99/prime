@@ -1,16 +1,25 @@
-import { CartContext } from "@/app/Home";
+import { CartContext } from "../../Home";
 import Image from "next/image";
 import { useContext, useState } from "react";
 
 const ProductCard = ({ product }) => {
-  const { setCartItems } = useContext(CartContext);
+  const { cart, setCart } = useContext(CartContext);
   const [isClicked, setIsClicked] = useState(false);
 
   const handleAddItemToCart = (product) => {
-    setCartItems((prev) => ({
-      items: [...prev.items, product],
-      count: prev.count + 1,
-    }));
+    const existedProduct = cart.filter((item) => item.id === product.id)[0];
+
+    if (existedProduct) {
+      let newCart = cart;
+      newCart = cart.filter((item) => item.id !== product.id);
+      existedProduct.quantity += 1;
+      setCart([...newCart, existedProduct]);
+    } else {
+      let newProduct = product;
+      newProduct.quantity = 1;
+      setCart((prev) => [...prev, newProduct]);
+    }
+
     setIsClicked(true);
     setTimeout(() => {
       setIsClicked(false);

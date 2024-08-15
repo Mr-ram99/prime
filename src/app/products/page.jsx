@@ -6,6 +6,7 @@ import ProductCard from "../components/ProductCard";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -14,8 +15,12 @@ const Products = () => {
       )
         .then((res) => res.json())
         .then((res) => {
-          setProducts(res.products);
           setLoading(false);
+          setProducts(res.products);
+        })
+        .catch((error) => {
+          setLoading(false);
+          setError(error.message);
         });
     }
     fetchProducts();
@@ -23,9 +28,9 @@ const Products = () => {
 
   return (
     <div>
-      {loading ? (
-        <div className="text-center text-xl">Loading...</div>
-      ) : (
+      {loading && <div className="text-center text-xl">Loading...</div>}
+      {error && <div className="text-center text-xl">{error}</div>}
+      {!loading && !error && (
         <div className="p-4 grid center grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
