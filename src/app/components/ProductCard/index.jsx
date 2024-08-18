@@ -37,7 +37,7 @@ const ProductCard = ({ product }) => {
         onClick={() => handleAddItemToCart(product)}
       >
         {isClicked ? (
-          <span>Added to cart &#10004; </span>
+          <span>Added to Cart &#10004; </span>
         ) : (
           <span>Add to Cart</span>
         )}

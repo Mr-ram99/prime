@@ -29,7 +29,9 @@ const Products = () => {
   return (
     <div>
       {loading && <div className="text-center text-xl">Loading...</div>}
-      {error && <div className="text-center text-xl">{error}</div>}
+      {error && (
+        <div className="text-center text-xl text-red-500">{`${error}: Please check your internet connection.`}</div>
+      )}
       {!loading && !error && (
         <div className="p-4 grid center grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {products.map((product) => (
